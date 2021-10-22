@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="374.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.cefeon.javafxcalendar.controllers.GraphicUserInterfaceController">
+   <children>
+      <AnchorPane fx:id="leftContainer" layoutX="-3.0" prefHeight="768.0" prefWidth="329.0" styleClass="bgFill">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000000c8" height="768.0" layoutX="1.0" stroke="TRANSPARENT" strokeType="INSIDE" width="376.0" />
+            <GridPane layoutX="5.0" layoutY="60.0" prefHeight="90.0" prefWidth="372.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="leftArrowButton" mnemonicParsing="false" styleClass="arrowButton" text="❮" textAlignment="CENTER" GridPane.columnIndex="7">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="rightArrowButton" minWidth="30.0" mnemonicParsing="false" styleClass="arrowButton" text="❯" textAlignment="CENTER" GridPane.columnIndex="8">
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <HBox prefHeight="47.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <Text fx:id="calendarMonth" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lightFill" text="January" textAlignment="RIGHT" />
+                        <Region maxWidth="10.0" minWidth="10.0" prefHeight="30.0" prefWidth="10.0" />
+                        <Text fx:id="calendarYear" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="blueFill" text="2022" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <GridPane fx:id="calendarGridPane" layoutX="21.0" layoutY="123.0" prefHeight="154.0" prefWidth="327.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text text="WK" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="SUN" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="MON" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="TUE" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="WED" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="THU" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="FRI" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+                  <Text text="SAT" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="7" GridPane.rowIndex="0">
+                     <styleClass>
+                        <String fx:value="calendarHeader" />
+                        <String fx:value="darkFill" />
+                     </styleClass></Text>
+
+                   <Text fill="#737373" styleClass="calendarDay" text="1" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                   <Text fill="#737373" styleClass="calendarDay" text="2" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                   <Text fill="#737373" styleClass="calendarDay" text="3" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                   <Text fill="#737373" styleClass="calendarDay" text="4" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                   <Text fill="#737373" styleClass="calendarDay" text="5" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                   <Text fill="#737373" styleClass="calendarDay" text="6" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+
+                  <Text styleClass="calendarDay" text="1" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="2" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="3" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="4" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="5" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="6" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="7" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+
+                  <Text styleClass="calendarDay" text="8" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="9" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="10" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="11" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="12" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="13" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="14" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <VBox prefHeight="83.0" prefWidth="81.0" GridPane.columnIndex="7" GridPane.rowIndex="3">
+                     <children>
+                        <Text text="21" textAlignment="CENTER" wrappingWidth="45.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="calendarDay" />
+                              <String fx:value="lightFill" />
+                           </styleClass>
+                        </Text>
+                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="45.0">
+                           <children>
+                              <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#3bc1ff" height="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="5.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="blueFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Region prefHeight="5.0" prefWidth="3.0" />
+                              <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#3bc1ff" height="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="5.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="violetFill" />
+                                 </styleClass>
+                              </Rectangle>
+                           </children>
+                           <padding>
+                              <Insets top="-3.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="1.0" />
+                     </GridPane.margin>
+                  </VBox>
+
+                  <Text styleClass="calendarDay" text="15" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="16" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="17" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="18" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="19" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="20" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="23" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="24" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="25" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="26" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="27" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="28" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+
+                  <Text styleClass="calendarDay" text="29" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text styleClass="calendarDay" text="30" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="1" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="2" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="3" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="4" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="5">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="5" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+
+                  <Text text="6" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="7" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="8" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="9" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="10" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="11" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="6" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <Text text="12" textAlignment="CENTER" wrappingWidth="45.0" GridPane.columnIndex="7" GridPane.rowIndex="6">
+                     <styleClass>
+                        <String fx:value="calendarDay" />
+                        <String fx:value="otherMonth" />
+                     </styleClass>
+                     <GridPane.margin>
+                        <Insets bottom="6.0" />
+                     </GridPane.margin></Text>
+                  <VBox prefHeight="83.0" prefWidth="81.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <Text text="22" textAlignment="CENTER" wrappingWidth="45.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <styleClass>
+                              <String fx:value="calendarDay" />
+                              <String fx:value="lightFill" />
+                           </styleClass>
+                        </Text>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#3bc1ff" height="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="5.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="greenFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Region prefHeight="5.0" prefWidth="3.0" />
+                              <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#3bc1ff" height="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="5.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="blueFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Region prefHeight="5.0" prefWidth="3.0" />
+                              <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#3bc1ff" height="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="5.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="violetFill" />
+                                 </styleClass>
+                              </Rectangle>
+                           </children>
+                           <padding>
+                              <Insets top="-4.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </VBox>
+               </children>
+            </GridPane>
+            <Line endX="-80.0" endY="-250.0" fill="WHITE" layoutX="144.0" layoutY="392.0" smooth="false" startX="-80.0" startY="-100.0" stroke="WHITE" strokeLineCap="BUTT" strokeLineJoin="ROUND" strokeWidth="0.1" />
+            <VBox layoutX="38.0" layoutY="302.0" prefHeight="200.0" prefWidth="304.0">
+               <children>
+                  <Group>
+                     <children>
+                        <HBox prefHeight="20.0" prefWidth="304.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TODAY">
+                                 <styleClass>
+                                    <String fx:value="taskListDay" />
+                                    <String fx:value="greenFill" />
+                                 </styleClass></Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="21.01.2022" textAlignment="RIGHT" wrappingWidth="97.7500228881836">
+                                 <styleClass>
+                                    <String fx:value="taskListDay" />
+                                    <String fx:value="blueFill" />
+                                 </styleClass>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <GridPane prefHeight="115.0" prefWidth="285.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.66667175292969" minWidth="10.0" prefWidth="20.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.33333206176758" minWidth="10.0" prefWidth="179.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Text fill="#dedede" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyjąć pranie z pralki" GridPane.columnIndex="1">
+                                 <styleClass>
+                                    <String fx:value="taskListItemName" />
+                                    <String fx:value="lightFill" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="12:00 - 14:00" textAlignment="RIGHT" wrappingWidth="97.7500228881836" GridPane.columnIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListHours" />
+                                    <String fx:value="darkFill" />
+                                 </styleClass>
+                              </Text>
+                              <Group translateY="-3.0" GridPane.rowIndex="1">
+                                 <children>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3bc1ff" height="31.0" stroke="TRANSPARENT" strokeType="INSIDE" width="287.0">
+                                       <styleClass>
+                                          <String fx:value="taskListRectangle" />
+                                          <String fx:value="blueFill" />
+                                       </styleClass>
+                                    </Rectangle>
+                                    <Text layoutX="6.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Urodziny Maliny" wrappingWidth="283.13671875">
+                                       <styleClass>
+                                          <String fx:value="taskListItemName" />
+                                          <String fx:value="lightFill" />
+                                       </styleClass>
+                                    </Text>
+                                 </children>
+                              </Group>
+                              <Text fill="#dedede" strokeType="OUTSIDE" strokeWidth="0.0" text="Napisać kawałek ciekawego programu komputerowego" wrappingWidth="182.5830078125" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListItemName" />
+                                    <String fx:value="lightFill" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="14:30 - 15:00" textAlignment="RIGHT" wrappingWidth="97.7500228881836" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListHours" />
+                                    <String fx:value="darkFill" />
+                                 </styleClass>
+                              </Text>
+                              <ImageView fitHeight="14.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                                 <image>
+                                    <Image url="@../images/v-icon.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fill="#dedede" strokeType="OUTSIDE" strokeWidth="0.0" text="Zjeść tosta na śniadanie" wrappingWidth="182.5830078125" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <styleClass>
+                                    <String fx:value="taskListItemName" />
+                                    <String fx:value="lightFill" />
+                                    <String fx:value="taskListItemDone" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="16:00 - 16:30" textAlignment="RIGHT" wrappingWidth="97.7500228881836" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                 <styleClass>
+                                    <String fx:value="taskListHours" />
+                                    <String fx:value="darkFill" />
+                                    <String fx:value="taskListItemDone" />
+                                 </styleClass>
+                              </Text>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3bc1ff" height="8.0" stroke="TRANSPARENT" strokeType="INSIDE" width="8.0" GridPane.rowIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="violetFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3bc1ff" height="8.0" stroke="TRANSPARENT" strokeType="INSIDE" width="8.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="blueFill" />
+                                 </styleClass>
+                              </Rectangle>
+                           </children>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Group>
+                  <Group>
+                     <children>
+                        <HBox prefHeight="20.0" prefWidth="304.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="taskListDay" text="TOMORROW" />
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="22.01.2022" textAlignment="RIGHT" wrappingWidth="97.7500228881836">
+                                 <styleClass>
+                                    <String fx:value="taskListDay" />
+                                    <String fx:value="blueFill" />
+                                 </styleClass>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <GridPane prefHeight="115.0" prefWidth="285.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.66667175292969" minWidth="10.0" prefWidth="20.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.33333206176758" minWidth="10.0" prefWidth="179.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Text fill="#dedede" strokeType="OUTSIDE" strokeWidth="0.0" text="Pobudka" GridPane.columnIndex="1">
+                                 <styleClass>
+                                    <String fx:value="taskListItemName" />
+                                    <String fx:value="lightFill" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="7:30 - 8:00" textAlignment="RIGHT" wrappingWidth="97.7500228881836" GridPane.columnIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListHours" />
+                                    <String fx:value="darkFill" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#dedede" strokeType="OUTSIDE" strokeWidth="0.0" text="Napisać kawałek ciekawego programu komputerowego" wrappingWidth="182.5830078125" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListItemName" />
+                                    <String fx:value="lightFill" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="14:30 - 15:00" textAlignment="RIGHT" wrappingWidth="97.7500228881836" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListHours" />
+                                    <String fx:value="darkFill" />
+                                 </styleClass>
+                              </Text>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3bc1ff" height="8.0" stroke="TRANSPARENT" strokeType="INSIDE" width="8.0" GridPane.rowIndex="2">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="violetFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3bc1ff" height="8.0" stroke="TRANSPARENT" strokeType="INSIDE" width="8.0">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="greenFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3bc1ff" height="8.0" stroke="TRANSPARENT" strokeType="INSIDE" width="8.0" GridPane.rowIndex="1">
+                                 <styleClass>
+                                    <String fx:value="taskListIcon" />
+                                    <String fx:value="blueFill" />
+                                 </styleClass>
+                              </Rectangle>
+                              <Text fill="#dedede" strokeType="OUTSIDE" strokeWidth="0.0" text="Bieganie" wrappingWidth="182.5830078125" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <styleClass>
+                                    <String fx:value="taskListItemName" />
+                                    <String fx:value="lightFill" />
+                                 </styleClass>
+                              </Text>
+                              <Text fill="#737373" strokeType="OUTSIDE" strokeWidth="0.0" text="8:00 - 10:30" textAlignment="RIGHT" wrappingWidth="97.7500228881836" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <styleClass>
+                                    <String fx:value="taskListHours" />
+                                    <String fx:value="darkFill" />
+                                 </styleClass>
+                              </Text>
+                           </children>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Group>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

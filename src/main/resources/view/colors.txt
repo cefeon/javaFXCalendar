@@ -1,0 +1,8 @@
+#3BC1FF - blue
+#AD2AE8 - violet
+#D9541E -red
+#44E82A -green
+#FFC930 - orange
+#373737
+#737373
+#dedede
