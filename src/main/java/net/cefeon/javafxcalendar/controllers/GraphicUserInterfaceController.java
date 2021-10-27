@@ -67,10 +67,11 @@ public class GraphicUserInterfaceController {
 
     public void refreshCalendar() {
         setCalendarText();
+        setCalendarColor();
         setCalendarYearAndMonth(this.selectedDate);
     }
 
-    private void clearFills(Node calendarTextNode) {
+    private void clearStyle(Node calendarTextNode) {
         calendarTextNode.getStyleClass().remove("lightFill");
         calendarTextNode.getStyleClass().remove("darkFill");
     }
@@ -78,25 +79,34 @@ public class GraphicUserInterfaceController {
     public void setCalendarText() {
         int firstDayOfWeek = this.selectedDate.getDayOfWeek().getValue();
         getCalendarFields().forEach((coords, field) -> {
-            clearFills(field);
             int calculatedDay = (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfWeek;
             if (calculatedDay > 0 && calculatedDay <= this.selectedDate.lengthOfMonth()) {
                 field.setText(String.valueOf(calculatedDay));
-                field.getStyleClass().add("lightFill");
-            }
-            if (calculatedDay <= 0) {
+            } else if (calculatedDay <= 0) {
                 field.setText(String.valueOf(this.selectedDate.plusMonths(-1).lengthOfMonth() + calculatedDay));
-                field.getStyleClass().add("darkFill");
-            }
-            if (calculatedDay > this.selectedDate.lengthOfMonth()) {
+                field.setOnMouseClicked(event -> {});
+            } else {
                 field.setText(String.valueOf(calculatedDay - this.selectedDate.lengthOfMonth()));
-                field.getStyleClass().add("darkFill");
-                field.setOnMouseClicked(event -> {
-                    this.selectedDate = this.selectedDate.plusMonths(-1);
-                    refreshCalendar();
-                });
+                field.setOnMouseClicked(event -> {});
             }
         });
+    }
+
+    public void setCalendarColor() {
+        getCalendarFields().forEach((coords, field) -> {
+            clearStyle(field);
+            if (isCalendarNodeCurrentMonth(coords)) {
+                field.getStyleClass().add("lightFill");
+            } else {
+                field.getStyleClass().add("darkFill");
+            }
+        });
+    }
+
+    private boolean isCalendarNodeCurrentMonth(Point coords) {
+        int firstDayOfWeek = this.selectedDate.getDayOfWeek().getValue();
+        int calculatedDay = (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfWeek;
+        return calculatedDay > 0 && calculatedDay <= this.selectedDate.lengthOfMonth();
     }
 
     private String dateToMonthName(LocalDate localDate) {
@@ -127,7 +137,7 @@ public class GraphicUserInterfaceController {
     public void addSetSelectedDayOnClick() {
         getCalendarFields().forEach((coords, field) -> field.setOnMouseClicked(event -> {
             selectedDate = selectedDate.withDayOfMonth(Integer.parseInt(field.getText()));
-            getCalendarFields().forEach((coords1,field1)->field1.getStyleClass().remove("selectedField"));
+            getCalendarFields().forEach((coords1, field1) -> field1.getStyleClass().remove("selectedField"));
             field.getStyleClass().add("selectedField");
         }));
     }
@@ -153,6 +163,6 @@ public class GraphicUserInterfaceController {
         addSubstractMonthOnClick(this.leftArrowButton);
         addSetSelectedDayOnClick();
         setCalendarYearAndMonth(selectedDate);
-        setCalendarText();
+        refreshCalendar();
     }
 }
