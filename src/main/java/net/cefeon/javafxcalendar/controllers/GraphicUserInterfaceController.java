@@ -7,9 +7,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.stereotype.Component;
 
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.HashMap;
@@ -18,7 +19,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+@Component
+@FxmlView("../../../../view/GraphicUserInterface.fxml")
 public class GraphicUserInterfaceController {
     @FXML
     private Text calendarMonth;
@@ -144,11 +146,13 @@ public class GraphicUserInterfaceController {
         });
     }
 
-    public void initializeCalendar() {
+    @FXML
+    public void initialize() {
         this.selectedDate = LocalDate.now();
         addAddMonthOnClick(this.rightArrowButton);
         addSubstractMonthOnClick(this.leftArrowButton);
         addSetSelectedDayOnClick();
         setCalendarYearAndMonth(selectedDate);
+        setCalendarText();
     }
 }
