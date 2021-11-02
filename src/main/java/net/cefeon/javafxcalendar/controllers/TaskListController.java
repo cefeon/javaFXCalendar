@@ -34,7 +34,7 @@ public class TaskListController {
     private TaskService taskService;
 
 
-    public void refreshTaskList(LocalDateTime selectedDate){
+    public void displayTaskList(LocalDateTime selectedDate){
         ObservableList<Node> items = FXCollections.observableArrayList (addDayLabel(selectedDate), addDailyGrid(selectedDate));
         taskList.setItems(items);
         taskList.setPrefHeight(150);
@@ -72,8 +72,21 @@ public class TaskListController {
         gridPane.add(taskListItem.getTaskListHours(), 2,row);
     }
 
+    private void addExampleTask(){
+        taskService.add(
+                Task.builder()
+                        .name("Zrobić śniadanie")
+                        .startTime(LocalDateTime.now())
+                        .endTime(LocalDateTime.now().plusHours(1))
+                        .type("TODO")
+                        .description("Posmarować jakieś kanapeczki masłem i położyć szynkę")
+                        .category("blue")
+                        .build()
+        );
+    }
+
     @FXML
     public void initialize() {
-        System.out.println("initialized");
+        addExampleTask();
     }
 }
