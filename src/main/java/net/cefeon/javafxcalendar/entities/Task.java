@@ -2,8 +2,8 @@ package net.cefeon.javafxcalendar.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @AllArgsConstructor
@@ -12,7 +12,8 @@ import java.util.Set;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(name = "taskId", nullable = false)
+    @Getter
     private Integer taskId;
 
     @Setter
@@ -23,20 +24,20 @@ public class Task {
         this.name = name;
     }
 
-    private LocalDate startTime;
-    private LocalDate endTime;
+    @Getter
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
-    private enum type {
-        FINISHED, WHOLEDAY, TODO
-    }
+    private String type;
 
-    @OneToMany
-    private Set<Category> categories;
+    @Getter
+    private String category;
 
+    @Getter
     private String description;
 
-    public Integer getId() {
-        return taskId;
+    public String getHourAndDayString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return this.startTime.format(formatter)+ " - " + this.endTime.format(formatter);
     }
-
 }

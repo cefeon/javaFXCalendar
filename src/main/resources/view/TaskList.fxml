@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="taskBox" cache="true" cacheHint="QUALITY" layoutX="38.0" layoutY="302.0" prefHeight="441.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.cefeon.javafxcalendar.controllers.TaskListController" />

@@ -3,19 +3,19 @@ package net.cefeon.javafxcalendar.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import net.cefeon.javafxcalendar.entities.Task;
+import net.cefeon.javafxcalendar.services.TaskService;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.awt.Point;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.TextStyle;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,7 +40,13 @@ public class GraphicUserInterfaceController {
     @FXML
     private Button leftArrowButton;
 
-    private LocalDate selectedDate;
+    private LocalDateTime selectedDate;
+
+    @Autowired
+    private TaskListController taskListController;
+
+    @Autowired
+    private TaskService taskService;
 
     public void setCalendarMonth(String text) {
         this.calendarMonth.setText(text);
@@ -50,19 +56,11 @@ public class GraphicUserInterfaceController {
         this.calendarYear.setText(text);
     }
 
-    public void addNode(Node n) {
-        this.leftContainer.getChildren().add(n);
-    }
-
-    public Map<Point, Node> getCalendarNodesMap() {
-        Map<Point, Node> calendarNodes = new HashMap<>();
-        this.calendarGridPane.getChildren().forEach(node ->
-                calendarNodes.put(new Point(GridPane.getRowIndex(node), GridPane.getColumnIndex(node)), node));
-        return calendarNodes;
-    }
-
-    public void setSelectedDate(LocalDate selectedDate) {
-        this.selectedDate = selectedDate;
+    public Map<Point, Node> getGridNodes(GridPane gridPane) {
+        Map<Point, Node> nodes = new HashMap<>();
+        gridPane.getChildren().forEach(node ->
+                nodes.put(new Point(GridPane.getRowIndex(node), GridPane.getColumnIndex(node)), node));
+        return nodes;
     }
 
     public void refreshCalendar() {
@@ -80,14 +78,17 @@ public class GraphicUserInterfaceController {
         int firstDayOfWeek = this.selectedDate.getDayOfWeek().getValue();
         getCalendarFields().forEach((coords, field) -> {
             int calculatedDay = (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfWeek;
-            if (calculatedDay > 0 && calculatedDay <= this.selectedDate.lengthOfMonth()) {
+            if (calculatedDay > 0 && calculatedDay <= this.selectedDate.toLocalDate().lengthOfMonth()) {
                 field.setText(String.valueOf(calculatedDay));
+                addSetSelectedDayOnClick(field);
             } else if (calculatedDay <= 0) {
-                field.setText(String.valueOf(this.selectedDate.plusMonths(-1).lengthOfMonth() + calculatedDay));
-                field.setOnMouseClicked(event -> {});
+                field.setText(String.valueOf(this.selectedDate.plusMonths(-1).toLocalDate().lengthOfMonth() + calculatedDay));
+                field.setOnMouseClicked(event -> {
+                });
             } else {
-                field.setText(String.valueOf(calculatedDay - this.selectedDate.lengthOfMonth()));
-                field.setOnMouseClicked(event -> {});
+                field.setText(String.valueOf(calculatedDay - this.selectedDate.toLocalDate().lengthOfMonth()));
+                field.setOnMouseClicked(event -> {
+                });
             }
         });
     }
@@ -106,24 +107,24 @@ public class GraphicUserInterfaceController {
     private boolean isCalendarNodeCurrentMonth(Point coords) {
         int firstDayOfWeek = this.selectedDate.getDayOfWeek().getValue();
         int calculatedDay = (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfWeek;
-        return calculatedDay > 0 && calculatedDay <= this.selectedDate.lengthOfMonth();
+        return calculatedDay > 0 && calculatedDay <= this.selectedDate.toLocalDate().lengthOfMonth();
     }
 
-    private String dateToMonthName(LocalDate localDate) {
+    private String dateToMonthName(LocalDateTime localDate) {
         return localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
     }
 
-    public void setCalendarYearAndMonth(LocalDate localDate) {
+    public void setCalendarYearAndMonth(LocalDateTime localDate) {
         setCalendarMonth(dateToMonthName(localDate));
         setCalendarYear(String.valueOf(localDate.getYear()));
     }
 
     private Map<Point, Text> getCalendarFields() {
-        Map<Point, Text> fromTextNodes = getCalendarNodesMap().entrySet().stream()
+        Map<Point, Text> fromTextNodes = getGridNodes(this.calendarGridPane).entrySet().stream()
                 .filter(x -> x.getValue() instanceof Text)
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> (Text) entry.getValue()));
 
-        Map<Point, Text> fromVboxNodes = getCalendarNodesMap().entrySet().stream()
+        Map<Point, Text> fromVboxNodes = getGridNodes(this.calendarGridPane).entrySet().stream()
                 .filter(x -> x.getValue() instanceof VBox)
                 .collect(Collectors.toMap(Map.Entry::getKey, x -> (Text) ((VBox) x.getValue()).getChildren().get(0)));
 
@@ -134,12 +135,14 @@ public class GraphicUserInterfaceController {
 
     }
 
-    public void addSetSelectedDayOnClick() {
-        getCalendarFields().forEach((coords, field) -> field.setOnMouseClicked(event -> {
-            selectedDate = selectedDate.withDayOfMonth(Integer.parseInt(field.getText()));
-            getCalendarFields().forEach((coords1, field1) -> field1.getStyleClass().remove("selectedField"));
-            field.getStyleClass().add("selectedField");
-        }));
+    public void addSetSelectedDayOnClick(Text text) {
+        text.setOnMouseClicked(event -> {
+            getCalendarFields().forEach((coords, field1) -> field1.getStyleClass().remove("selectedField"));
+            this.selectedDate = selectedDate.withDayOfMonth(Integer.parseInt(text.getText()));
+            taskListController.refreshTaskList(this.selectedDate);
+/*            taskListController.getController().show();*/
+            text.getStyleClass().add("selectedField");
+        });
     }
 
     public void addAddMonthOnClick(Button button) {
@@ -158,11 +161,20 @@ public class GraphicUserInterfaceController {
 
     @FXML
     public void initialize() {
-        this.selectedDate = LocalDate.now();
+        this.selectedDate = LocalDateTime.now();
         addAddMonthOnClick(this.rightArrowButton);
         addSubstractMonthOnClick(this.leftArrowButton);
-        addSetSelectedDayOnClick();
-        setCalendarYearAndMonth(selectedDate);
+        setCalendarYearAndMonth(this.selectedDate);
         refreshCalendar();
+        taskService.add(
+                Task.builder()
+                        .name("Zrobić śniadanie")
+                        .startTime(LocalDateTime.now())
+                        .endTime(LocalDateTime.now().plusHours(1))
+                        .type("TODO")
+                        .description("Posmarować jakieś kanapeczki masłem i położyć szynkę")
+                        .category("blue")
+                        .build()
+        );
     }
 }
