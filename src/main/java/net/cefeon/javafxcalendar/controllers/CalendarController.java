@@ -95,28 +95,27 @@ public class CalendarController {
 
     public int calculateDay(Point coords){
         int firstDayOfMonth = this.selectedDate.withDayOfMonth(1).getDayOfWeek().getValue();
-        return (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfMonth;
+        if (firstDayOfMonth == 7) firstDayOfMonth = 0;
+        return (int) (coords.getY() + (coords.getX()-1) * 7) - firstDayOfMonth;
     }
 
     public void setCalendarText() {
         getCalendarFields().forEach((coords, field) -> {
-            int calculatedDay = calculateDay(coords);
-            if (calculatedDay <= 0) {
-                field.setText(String.valueOf(this.selectedDate.plusMonths(-1).toLocalDate().lengthOfMonth() + calculatedDay));
-            } else if (calculatedDay > this.selectedDate.toLocalDate().lengthOfMonth()) {
-                field.setText(String.valueOf(calculatedDay - this.selectedDate.toLocalDate().lengthOfMonth()));
+            if (calculateDay(coords) <= 0) {
+                field.setText(String.valueOf(this.selectedDate.plusMonths(-1).toLocalDate().lengthOfMonth() + calculateDay(coords)));
+            } else if (calculateDay(coords) > this.selectedDate.toLocalDate().lengthOfMonth()) {
+                field.setText(String.valueOf(calculateDay(coords) - this.selectedDate.toLocalDate().lengthOfMonth()));
             } else {
-                field.setText(String.valueOf(calculatedDay));
+                field.setText(String.valueOf(calculateDay(coords)));
             }
         });
     }
 
     public void setCalendarActions() {
         getCalendarFields().forEach((coords, field) -> {
-            int calculatedDay = calculateDay(coords);
-            if (calculatedDay <= 0) {
+            if (calculateDay(coords) <= 0) {
                 field.setOnMouseClicked(event -> {});
-            } else if (calculatedDay > this.selectedDate.toLocalDate().lengthOfMonth()) {
+            } else if (calculateDay(coords) > this.selectedDate.toLocalDate().lengthOfMonth()) {
                 field.setOnMouseClicked(event -> {});
             } else {
                 addSetSelectedDayOnClick(field);
@@ -127,8 +126,7 @@ public class CalendarController {
     public Map<Point, Text> getCurrentMonthCalendar(){
         Map<Point, Text> currentMonthCalendar = new HashMap<>();
         getCalendarFields().forEach((coords, field) -> {
-            int calculatedDay = calculateDay(coords);
-            if (calculatedDay > 0 && calculatedDay < this.selectedDate.toLocalDate().lengthOfMonth() ) {
+            if (calculateDay(coords) > 0 && calculateDay(coords) < this.selectedDate.toLocalDate().lengthOfMonth() ) {
                 currentMonthCalendar.put(coords, field);
             }
 
@@ -149,8 +147,7 @@ public class CalendarController {
 
 
     private boolean isCalendarNodeCurrentMonth(Point coords) {
-        int calculatedDay = calculateDay(coords);
-        return calculatedDay > 0 && calculatedDay <= this.selectedDate.toLocalDate().lengthOfMonth();
+        return calculateDay(coords) > 0 && calculateDay(coords) <= this.selectedDate.toLocalDate().lengthOfMonth();
     }
 
     private String dateToMonthName(LocalDateTime localDate) {
