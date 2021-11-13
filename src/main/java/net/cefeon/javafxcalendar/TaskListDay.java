@@ -25,7 +25,7 @@ public class TaskListDay {
 
         dayDate.getStyleClass().add("taskListDay");
         dayDate.getStyleClass().add("blueFill");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.YYYY");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         dayDate.setText(localDateTime.toLocalDate().format(formatter));
         dayDate.setTextAlignment(TextAlignment.RIGHT);
 

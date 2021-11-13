@@ -3,8 +3,6 @@ package net.cefeon.javafxcalendar.services;
 import net.cefeon.javafxcalendar.entities.Task;
 import net.cefeon.javafxcalendar.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

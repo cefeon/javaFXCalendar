@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Component
 @FxmlView("../../../../view/TaskList.fxml")
@@ -33,9 +34,8 @@ public class TaskListController {
     @Autowired
     private TaskService taskService;
 
-
-    public void displayTaskList(LocalDateTime selectedDate){
-        ObservableList<Node> items = FXCollections.observableArrayList (addDayLabel(selectedDate), addDailyGrid(selectedDate));
+    public void displayTaskList(LocalDateTime date){
+        ObservableList<Node> items = FXCollections.observableArrayList (addDayLabel(date), addDailyGrid(date));
         taskList.setItems(items);
         taskList.setPrefHeight(150);
         taskList.setId("taskList");
@@ -50,11 +50,12 @@ public class TaskListController {
         gridPane.getColumnConstraints().add(new ColumnConstraints(20));
         gridPane.getColumnConstraints().add(new ColumnConstraints(180));
         gridPane.getColumnConstraints().add(new ColumnConstraints(100));
-        for (int i = 0; i<list.size(); i++){
+
+        IntStream.range(0, list.size()).forEach(i->{
             Task x = list.get(i);
             addTaskGridElement(gridPane, x.getName(), x.getHourAndDayString(), x.getCategory(), i);
             gridPane.getRowConstraints().add(new RowConstraints(25));
-        }
+        });
         return gridPane;
     }
 

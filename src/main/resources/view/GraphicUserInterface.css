@@ -1,4 +1,4 @@
-#leftContainer{
+#mainWindow{
     -fx-background-image: url("https://source.unsplash.com/random/400x800?october");
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
@@ -21,33 +21,6 @@
 
 .list-view .scroll-bar:horizontal {
     -fx-scale-x: 0;
-}
-
-.taskListItemName{
-    -fx-fill: #dedede;
-    -fx-font-family: 'Open Sans';
-    -fx-font-style: normal;
-    -fx-font-weight: 400;
-    -fx-font-size: 15px;
-}
-
-.taskListDay{
-    -fx-fill: #737373;
-    -fx-font-family: 'Open Sans';
-    -fx-font-style: normal;
-    -fx-font-weight: 700;
-    -fx-font-size: 17px;
-}
-
-.taskListHours{
-    -fx-font-family: 'Open Sans';
-    -fx-font-style: normal;
-    -fx-font-weight: 400;
-    -fx-font-size: 15px;
-}
-
-.taskListItemDone{
-    -fx-strikethrough: true;
 }
 
 .blueFill{
@@ -76,11 +49,6 @@
 
 .lightFill{
     -fx-fill: #bfbfbf;
-}
-
-.selectedField{
-    -fx-underline: true;
-    -fx-fill: #3BC1FF;
 }
 
 .bgFill{

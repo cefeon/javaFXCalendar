@@ -16,6 +16,7 @@ import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,16 +61,30 @@ public class CalendarController {
 
     public void refreshCalendar() {
         setCalendarText();
+        setCalendarActions();
         setCalendarColor();
         setCalendarYearAndMonth(this.selectedDate);
+        styleSelectedDate(this.selectedDate);
+    }
+
+    public void styleSelectedField(Text text){
+        this.getCalendarFields().forEach((coords, field1) -> field1.getStyleClass().remove("selectedField"));
+        text.getStyleClass().add("selectedField");
+    }
+
+    public void styleSelectedDate(LocalDateTime localDateTime){
+        Optional<Map.Entry<Point, Text>> currentDateField = this.getCurrentMonthCalendar().entrySet().stream()
+                .filter(x->x.getValue().getText().equals(String.valueOf(localDateTime.getDayOfMonth())))
+                .findFirst();
+
+        currentDateField.ifPresent(x-> styleSelectedField(x.getValue()));
     }
 
     public void addSetSelectedDayOnClick(Text text) {
         text.setOnMouseClicked(event -> {
-            this.getCalendarFields().forEach((coords, field1) -> field1.getStyleClass().remove("selectedField"));
+            styleSelectedField(text);
             this.selectedDate = selectedDate.withDayOfMonth(Integer.parseInt(text.getText()));
             taskListController.displayTaskList(this.selectedDate);
-            text.getStyleClass().add("selectedField");
         });
     }
 
@@ -78,23 +93,47 @@ public class CalendarController {
         calendarTextNode.getStyleClass().remove("darkFill");
     }
 
+    public int calculateDay(Point coords){
+        int firstDayOfMonth = this.selectedDate.withDayOfMonth(1).getDayOfWeek().getValue();
+        return (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfMonth;
+    }
+
     public void setCalendarText() {
-        int firstDayOfWeek = this.selectedDate.getDayOfWeek().getValue();
         getCalendarFields().forEach((coords, field) -> {
-            int calculatedDay = (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfWeek;
-            if (calculatedDay > 0 && calculatedDay <= this.selectedDate.toLocalDate().lengthOfMonth()) {
-                field.setText(String.valueOf(calculatedDay));
-                addSetSelectedDayOnClick(field);
-            } else if (calculatedDay <= 0) {
+            int calculatedDay = calculateDay(coords);
+            if (calculatedDay <= 0) {
                 field.setText(String.valueOf(this.selectedDate.plusMonths(-1).toLocalDate().lengthOfMonth() + calculatedDay));
-                field.setOnMouseClicked(event -> {
-                });
-            } else {
+            } else if (calculatedDay > this.selectedDate.toLocalDate().lengthOfMonth()) {
                 field.setText(String.valueOf(calculatedDay - this.selectedDate.toLocalDate().lengthOfMonth()));
-                field.setOnMouseClicked(event -> {
-                });
+            } else {
+                field.setText(String.valueOf(calculatedDay));
             }
         });
+    }
+
+    public void setCalendarActions() {
+        getCalendarFields().forEach((coords, field) -> {
+            int calculatedDay = calculateDay(coords);
+            if (calculatedDay <= 0) {
+                field.setOnMouseClicked(event -> {});
+            } else if (calculatedDay > this.selectedDate.toLocalDate().lengthOfMonth()) {
+                field.setOnMouseClicked(event -> {});
+            } else {
+                addSetSelectedDayOnClick(field);
+            }
+        });
+    }
+
+    public Map<Point, Text> getCurrentMonthCalendar(){
+        Map<Point, Text> currentMonthCalendar = new HashMap<>();
+        getCalendarFields().forEach((coords, field) -> {
+            int calculatedDay = calculateDay(coords);
+            if (calculatedDay > 0 && calculatedDay < this.selectedDate.toLocalDate().lengthOfMonth() ) {
+                currentMonthCalendar.put(coords, field);
+            }
+
+        });
+        return currentMonthCalendar;
     }
 
     public void setCalendarColor() {
@@ -108,9 +147,9 @@ public class CalendarController {
         });
     }
 
+
     private boolean isCalendarNodeCurrentMonth(Point coords) {
-        int firstDayOfWeek = this.selectedDate.getDayOfWeek().getValue();
-        int calculatedDay = (int) (coords.getY() + (coords.getX() - 1) * 7) - firstDayOfWeek;
+        int calculatedDay = calculateDay(coords);
         return calculatedDay > 0 && calculatedDay <= this.selectedDate.toLocalDate().lengthOfMonth();
     }
 
@@ -159,6 +198,7 @@ public class CalendarController {
         addAddMonthOnClick(this.rightArrowButton);
         addSubstractMonthOnClick(this.leftArrowButton);
         setCalendarYearAndMonth(this.selectedDate);
+        taskListController.displayTaskList(this.selectedDate);
         refreshCalendar();
     }
 }

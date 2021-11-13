@@ -20,5 +20,6 @@ public class GraphicUserInterfaceController {
     @FXML
     public void initialize() {
 
+
     }
 }

@@ -1,0 +1,58 @@
+.taskListItemName{
+    -fx-fill: #dedede;
+    -fx-font-family: 'Open Sans';
+    -fx-font-style: normal;
+    -fx-font-weight: 400;
+    -fx-font-size: 15px;
+}
+
+.taskListDay{
+    -fx-fill: #737373;
+    -fx-font-family: 'Open Sans';
+    -fx-font-style: normal;
+    -fx-font-weight: 700;
+    -fx-font-size: 17px;
+}
+
+.taskListHours{
+    -fx-font-family: 'Open Sans';
+    -fx-font-style: normal;
+    -fx-font-weight: 400;
+    -fx-font-size: 15px;
+}
+
+.taskListItemDone{
+    -fx-strikethrough: true;
+}
+
+.blueFill{
+    -fx-fill: #3BC1FF;
+}
+
+.redFill{
+    -fx-fill: #D9541E;
+}
+
+.violetFill{
+    -fx-fill: #AD2AE8;
+}
+
+.greenFill{
+    -fx-fill: #44E82A;
+}
+
+.orangeFill{
+    -fx-fill: #FFC930;
+}
+
+.darkFill{
+    -fx-fill: #737373;
+}
+
+.lightFill{
+    -fx-fill: #bfbfbf;
+}
+
+.bgFill{
+    -fx-background-color: #dedede;
+}

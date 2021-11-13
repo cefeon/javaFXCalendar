@@ -1,8 +1,6 @@
 package net.cefeon.javafxcalendar;
 
 import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import lombok.*;
 import net.cefeon.javafxcalendar.entities.Task;
 import org.springframework.stereotype.Component;

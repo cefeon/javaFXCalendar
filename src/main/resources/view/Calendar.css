@@ -71,7 +71,6 @@
 }
 
 .selectedField{
-    -fx-underline: true;
     -fx-fill: #3BC1FF;
 }
 
