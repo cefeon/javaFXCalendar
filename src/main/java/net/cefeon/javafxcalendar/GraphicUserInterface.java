@@ -12,6 +12,7 @@ import net.cefeon.javafxcalendar.controllers.GraphicUserInterfaceController;
 import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+
 import java.io.IOException;
 
 public class GraphicUserInterface extends Application {
@@ -46,6 +47,7 @@ public class GraphicUserInterface extends Application {
         root.setOnMousePressed(pressEvent -> root.setOnMouseDragged(dragEvent -> {
             stage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
             stage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+
         }));
     }
 
