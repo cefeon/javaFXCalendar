@@ -40,17 +40,8 @@ public class CalendarController {
     @FXML
     private Button leftArrowButton;
 
-    @Autowired
+   @Autowired
     private TaskListController taskListController;
-
-    public void setCalendarMonth(String text) {
-        this.calendarMonth.setText(text);
-    }
-
-    public void setCalendarYear(String text) {
-        this.calendarYear.setText(text);
-    }
-
 
     public Map<Point, Node> getGridNodes(GridPane gridPane) {
         Map<Point, Node> nodes = new HashMap<>();
@@ -59,12 +50,12 @@ public class CalendarController {
         return nodes;
     }
 
-    public void refreshCalendar() {
-        setCalendarText();
-        setCalendarActions();
-        setCalendarColor();
-        setCalendarYearAndMonth(this.selectedDate);
-        styleSelectedDate(this.selectedDate);
+    public void refresh() {
+        setCalendarText(getCalendarFields());
+        bindActionsToFields(getCalendarFields());
+        setColor(getCalendarFields());
+        setYearAndMonth(this.selectedDate);
+        styleSelectedDate(this.selectedDate, getCurrentMonthCalendar(getCalendarFields()));
     }
 
     public void styleSelectedField(Text text){
@@ -72,8 +63,8 @@ public class CalendarController {
         text.getStyleClass().add("selectedField");
     }
 
-    public void styleSelectedDate(LocalDateTime localDateTime){
-        Optional<Map.Entry<Point, Text>> currentDateField = this.getCurrentMonthCalendar().entrySet().stream()
+    public void styleSelectedDate(LocalDateTime localDateTime, Map<Point, Text> currentMonthCalendar){
+        Optional<Map.Entry<Point, Text>> currentDateField = currentMonthCalendar.entrySet().stream()
                 .filter(x->x.getValue().getText().equals(String.valueOf(localDateTime.getDayOfMonth())))
                 .findFirst();
 
@@ -99,8 +90,8 @@ public class CalendarController {
         return (int) (coords.getY() + (coords.getX()-1) * 7) - firstDayOfMonth;
     }
 
-    public void setCalendarText() {
-        getCalendarFields().forEach((coords, field) -> {
+    public void setCalendarText(Map<Point, Text> calendarFields) {
+        calendarFields.forEach((coords, field) -> {
             if (calculateDay(coords) <= 0) {
                 field.setText(String.valueOf(this.selectedDate.plusMonths(-1).toLocalDate().lengthOfMonth() + calculateDay(coords)));
             } else if (calculateDay(coords) > this.selectedDate.toLocalDate().lengthOfMonth()) {
@@ -111,8 +102,8 @@ public class CalendarController {
         });
     }
 
-    public void setCalendarActions() {
-        getCalendarFields().forEach((coords, field) -> {
+    public void bindActionsToFields(Map <Point, Text> calendarFields) {
+        calendarFields.forEach((coords, field) -> {
             if (calculateDay(coords) <= 0) {
                 field.setOnMouseClicked(event -> {});
             } else if (calculateDay(coords) > this.selectedDate.toLocalDate().lengthOfMonth()) {
@@ -123,9 +114,9 @@ public class CalendarController {
         });
     }
 
-    public Map<Point, Text> getCurrentMonthCalendar(){
+    public Map<Point, Text> getCurrentMonthCalendar(Map<Point, Text> calendarFields){
         Map<Point, Text> currentMonthCalendar = new HashMap<>();
-        getCalendarFields().forEach((coords, field) -> {
+        calendarFields.forEach((coords, field) -> {
             if (calculateDay(coords) > 0 && calculateDay(coords) < this.selectedDate.toLocalDate().lengthOfMonth() ) {
                 currentMonthCalendar.put(coords, field);
             }
@@ -134,8 +125,8 @@ public class CalendarController {
         return currentMonthCalendar;
     }
 
-    public void setCalendarColor() {
-        getCalendarFields().forEach((coords, field) -> {
+    public void setColor(Map<Point, Text> calendarFields) {
+        calendarFields.forEach((coords, field) -> {
             clearStyle(field);
             if (isCalendarNodeCurrentMonth(coords)) {
                 field.getStyleClass().add("lightFill");
@@ -154,9 +145,9 @@ public class CalendarController {
         return localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
     }
 
-    public void setCalendarYearAndMonth(LocalDateTime localDate) {
-        setCalendarMonth(dateToMonthName(localDate));
-        setCalendarYear(String.valueOf(localDate.getYear()));
+    public void setYearAndMonth(LocalDateTime localDate) {
+        this.calendarMonth.setText(dateToMonthName(localDate));
+        this.calendarYear.setText(String.valueOf(localDate.getYear()));
     }
 
     public Map<Point, Text> getCalendarFields() {
@@ -175,27 +166,27 @@ public class CalendarController {
 
     }
 
-    public void addAddMonthOnClick(javafx.scene.control.Button button) {
+    public void actionAddMonthOnClick(Button button) {
         button.setOnAction(event -> {
             this.selectedDate = this.selectedDate.plusMonths(1);
-            refreshCalendar();
+            refresh();
         });
     }
 
-    public void addSubstractMonthOnClick(Button button) {
+    public void actionSubstractMonthOnClick(Button button) {
         button.setOnAction(event -> {
             this.selectedDate = this.selectedDate.plusMonths(-1);
-            refreshCalendar();
+            refresh();
         });
     }
 
     @FXML
     public void initialize() {
         this.selectedDate = LocalDateTime.now();
-        addAddMonthOnClick(this.rightArrowButton);
-        addSubstractMonthOnClick(this.leftArrowButton);
-        setCalendarYearAndMonth(this.selectedDate);
+        actionAddMonthOnClick(this.rightArrowButton);
+        actionSubstractMonthOnClick(this.leftArrowButton);
+        setYearAndMonth(this.selectedDate);
         taskListController.displayTaskList(this.selectedDate);
-        refreshCalendar();
+        refresh();
     }
 }

@@ -13,6 +13,7 @@ import net.cefeon.javafxcalendar.TaskListDay;
 import net.cefeon.javafxcalendar.TaskListItem;
 import net.cefeon.javafxcalendar.entities.Task;
 import net.cefeon.javafxcalendar.services.TaskService;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,17 @@ import java.util.stream.IntStream;
 @Component
 @FxmlView("../../../../view/TaskList.fxml")
 public class TaskListController {
+
+    @Autowired
+    private FxWeaver fxWeaver;
+
     @Getter
     @FXML
-    ListView<Node> taskList = new ListView<>();
+    ListView<Node> todayTaskList = new ListView<>();
+
+    @Getter
+    @FXML
+    ListView<Node> tomorrowTaskList = new ListView<>();
 
     @FXML
     private VBox taskBox;
@@ -35,13 +44,18 @@ public class TaskListController {
     private TaskService taskService;
 
     public void displayTaskList(LocalDateTime date){
-        ObservableList<Node> items = FXCollections.observableArrayList (addDayLabel(date), addDailyGrid(date));
-        taskList.setItems(items);
-        taskList.setPrefHeight(150);
-        taskList.setId("taskList");
-        taskBox.getChildren().remove(taskList);
-        taskBox.getChildren().add(taskList);
-        taskBox.getChildren().removeAll();
+        ObservableList<Node> todayItems = FXCollections.observableArrayList (addDayLabel(date,"TODAY "), addDailyGrid(date));
+        todayTaskList.setItems(todayItems);
+        todayTaskList.setPrefHeight(170);
+        todayTaskList.setId("todayTaskList");
+        taskBox.getChildren().remove(todayTaskList);
+        taskBox.getChildren().add(todayTaskList);
+        ObservableList<Node> tomorrowItems = FXCollections.observableArrayList (addDayLabel(date.plusDays(1)," "), addDailyGrid(date.plusDays(1)));
+        tomorrowTaskList.setItems(tomorrowItems);
+        tomorrowTaskList.setPrefHeight(170);
+        tomorrowTaskList.setId("tomorrowTaskList");
+        taskBox.getChildren().remove(tomorrowTaskList);
+        taskBox.getChildren().add(tomorrowTaskList);
     }
 
     private GridPane addDailyGrid(LocalDateTime date){
@@ -53,24 +67,25 @@ public class TaskListController {
 
         IntStream.range(0, list.size()).forEach(i->{
             Task x = list.get(i);
-            addTaskGridElement(gridPane, x.getName(), x.getHourAndDayString(), x.getCategory(), i);
+            addTaskGridElement(gridPane, x.getName(), x.getStartTimeText(), x.getEndTimeText(), x.getCategory(), i);
             gridPane.getRowConstraints().add(new RowConstraints(25));
         });
         return gridPane;
     }
 
-    private HBox addDayLabel(LocalDateTime localDateTime){
-        TaskListDay taskListDay = new TaskListDay(new Text(), new Text(), new HBox());
+    private HBox addDayLabel(LocalDateTime localDateTime, String text){
+        TaskListDay taskListDay = new TaskListDay(new Text(text), new Text(), new HBox());
         taskListDay.setTextAndStyle(localDateTime);
         return taskListDay.getHBox();
     }
 
-    private void addTaskGridElement(GridPane gridPane, String taskListItemName, String taskListHours, String taskCategory, int row){
-        TaskListItem taskListItem = new TaskListItem(new Text(), new Text(), new Rectangle());
-        taskListItem.setTextAndStyle(taskListItemName, taskListHours, taskCategory);
-        gridPane.add(taskListItem.getTaskListIcon(), 0, row);
-        gridPane.add(taskListItem.getTaskListItemName(), 1,row);
-        gridPane.add(taskListItem.getTaskListHours(), 2,row);
+    private void addTaskGridElement(GridPane gridPane, String taskListItemName, String taskListStartTime, String taskListEndTime, String taskCategory, int row){
+        TaskListItem taskListItem = new TaskListItem(new Text(), new Text(), new Rectangle(), "", "");
+        addShowDetailsWindow(taskListItem);
+        taskListItem.setTextAndStyle(taskListItemName, taskListStartTime, taskListEndTime, taskCategory);
+        gridPane.add(taskListItem.getIcon(), 0, row);
+        gridPane.add(taskListItem.getItemName(), 1,row);
+        gridPane.add(taskListItem.getHours(), 2,row);
     }
 
     private void addExampleTask(){
@@ -84,6 +99,12 @@ public class TaskListController {
                         .category("blue")
                         .build()
         );
+    }
+
+    private void addShowDetailsWindow(TaskListItem taskListItem){
+        taskListItem.getItemName().setOnMouseClicked(event->{
+            fxWeaver.loadController(TaskDetailsController.class).show(taskListItem);
+        });
     }
 
     @FXML

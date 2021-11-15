@@ -12,7 +12,6 @@ import net.cefeon.javafxcalendar.controllers.GraphicUserInterfaceController;
 import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-
 import java.io.IOException;
 
 public class GraphicUserInterface extends Application {
@@ -57,5 +56,4 @@ public class GraphicUserInterface extends Application {
         stage.getIcons().add(image);
         stage.initStyle(StageStyle.TRANSPARENT);
     }
-
 }

@@ -18,7 +18,6 @@ public class TaskListDay {
     private HBox hBox;
 
     public void setTextAndStyle(LocalDateTime localDateTime){
-        dayName.setText("TODAY ");
         dayName.getStyleClass().add("taskListDay");
         dayName.getStyleClass().add("greenFill");
         dayName.setTextAlignment(TextAlignment.LEFT);

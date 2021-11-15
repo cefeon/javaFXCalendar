@@ -1,36 +1,40 @@
 package net.cefeon.javafxcalendar;
-import javafx.fxml.FXML;
+
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public class TaskListItem extends Node {
 
     @Getter
-    Text taskListItemName;
+    Text itemName;
     @Getter
-    Text taskListHours;
+    Text hours;
     @Getter
-    Rectangle taskListIcon;
+    Rectangle icon;
+    @Getter
+    String startTime;
+    @Getter
+    String endTime;
 
-    public void setTextAndStyle(String taskListItemName, String taskListHours, String taskCategory){
-        this.taskListItemName.setText(taskListItemName);
-        this.taskListItemName.prefHeight(20);
-        this.taskListItemName.getStyleClass().add("taskListItemName");
-        this.taskListItemName.getStyleClass().add("lightFill");
-
-        this.taskListHours.setText(taskListHours);
-        this.taskListHours.getStyleClass().add("taskListHours");
-        this.taskListHours.getStyleClass().add("darkFill");
-
-        this.taskListIcon.setWidth(8);
-        this.taskListIcon.setHeight(8);
-        this.taskListIcon.getStyleClass().add("taskListIcon");
-        this.taskListIcon.getStyleClass().add(taskCategory+"Fill");
-        this.taskListIcon.setArcHeight(5);
-        this.taskListIcon.setArcWidth(5);
+    public void setTextAndStyle(String taskListItemName, String taskListStartTime, String taskListEndTime, String taskCategory){
+        this.itemName.setText(taskListItemName);
+        this.itemName.prefHeight(20);
+        this.itemName.getStyleClass().add("taskListItemName");
+        this.itemName.getStyleClass().add("lightFill");
+        this.startTime = taskListStartTime;
+        this.endTime = taskListEndTime;
+        this.hours.setText(taskListStartTime+" - "+taskListEndTime);
+        this.hours.getStyleClass().add("taskListHours");
+        this.hours.getStyleClass().add("darkFill");
+        this.icon.setWidth(8);
+        this.icon.setHeight(8);
+        this.icon.getStyleClass().add("taskListIcon");
+        this.icon.getStyleClass().add(taskCategory+"Fill");
+        this.icon.setArcHeight(5);
+        this.icon.setArcWidth(5);
     }
 }

@@ -26,6 +26,8 @@ public class Task {
 
     @Getter
     private LocalDateTime startTime;
+
+    @Getter
     private LocalDateTime endTime;
 
     private String type;
@@ -39,5 +41,15 @@ public class Task {
     public String getHourAndDayString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         return this.startTime.format(formatter)+ " - " + this.endTime.format(formatter);
+    }
+
+    public String getStartTimeText(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return this.startTime.format(formatter);
+    }
+
+    public String getEndTimeText(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return this.endTime.format(formatter);
     }
 }
