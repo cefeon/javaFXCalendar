@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 @FxmlView("../../../../view/Calendar.fxml")
 public class CalendarController {
 
-    private LocalDateTime selectedDate;
+    private final LocalDateTime selectedDate;
 
     @FXML
     private Text calendarMonth;

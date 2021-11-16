@@ -1,15 +1,10 @@
 package net.cefeon.javafxcalendar.controllers;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import lombok.Setter;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
