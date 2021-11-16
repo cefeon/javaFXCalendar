@@ -8,12 +8,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import net.cefeon.javafxcalendar.GraphicUserInterface;
-import net.cefeon.javafxcalendar.TaskListItem;
 import net.cefeon.javafxcalendar.entities.Task;
 import net.cefeon.javafxcalendar.services.TaskService;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 

@@ -16,7 +16,6 @@ import net.cefeon.javafxcalendar.entities.Task;
 import net.cefeon.javafxcalendar.services.TaskService;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -95,23 +94,8 @@ public class TaskListController {
         gridPane.add(taskListItem.getHours(), 2,row);
     }
 
-    private void addExampleTask(){
-        taskService.addOrUpdate(
-                Task.builder()
-                        .name("Zrobić śniadanie")
-                        .startTime(LocalDateTime.now())
-                        .endTime(LocalDateTime.now().plusHours(1))
-                        .type("TODO")
-                        .description("Posmarować jakieś kanapeczki masłem i położyć szynkę")
-                        .category("blue")
-                        .build()
-        );
-    }
-
     private void addShowDetailsWindow(TaskListItem taskListItem, Task task){
-        taskListItem.getItemName().setOnMouseClicked(event->{
-            fxWeaver.loadController(TaskDetailsController.class).show(task);
-        });
+        taskListItem.getItemName().setOnMouseClicked(event-> fxWeaver.loadController(TaskDetailsController.class).show(task));
     }
 
     public void refresh(){

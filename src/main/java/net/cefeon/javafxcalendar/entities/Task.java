@@ -12,7 +12,6 @@ import java.time.format.DateTimeFormatter;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "taskId", nullable = false)
     @Getter
     @Setter
     private Integer taskId;
@@ -44,17 +43,19 @@ public class Task {
     private String description;
 
     public String getHourAndDayString(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return this.startTime.format(formatter)+ " - " + this.endTime.format(formatter);
+        return dateToTime(this.startTime) + " - " + dateToTime(this.endTime);
     }
 
     public String getStartTimeText(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return this.startTime.format(formatter);
+        return dateToTime(this.startTime);
     }
 
     public String getEndTimeText(){
+        return dateToTime(this.endTime);
+    }
+
+    private String dateToTime(LocalDateTime localDateTime){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        return this.endTime.format(formatter);
+        return localDateTime.format(formatter);
     }
 }
