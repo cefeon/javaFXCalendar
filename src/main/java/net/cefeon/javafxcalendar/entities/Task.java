@@ -14,6 +14,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "taskId", nullable = false)
     @Getter
+    @Setter
     private Integer taskId;
 
     @Setter
@@ -25,17 +26,21 @@ public class Task {
     }
 
     @Getter
+    @Setter
     private LocalDateTime startTime;
 
     @Getter
+    @Setter
     private LocalDateTime endTime;
 
     private String type;
 
     @Getter
+    @Setter
     private String category;
 
     @Getter
+    @Setter
     private String description;
 
     public String getHourAndDayString(){

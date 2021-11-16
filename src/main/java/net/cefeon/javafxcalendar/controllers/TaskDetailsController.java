@@ -10,9 +10,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import net.cefeon.javafxcalendar.GraphicUserInterface;
 import net.cefeon.javafxcalendar.TaskListItem;
+import net.cefeon.javafxcalendar.entities.Task;
+import net.cefeon.javafxcalendar.services.TaskService;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 
 @Component
 @FxmlView("../../../../view/TaskDetails.fxml")
@@ -34,8 +37,17 @@ public class TaskDetailsController {
     @FXML
     private TextArea description;
 
-    @Autowired
-    private GraphicUserInterfaceController graphicUserInterfaceController;
+    private final GraphicUserInterfaceController graphicUserInterfaceController;
+
+    private final TaskService taskService;
+
+    private final TaskListController taskListController;
+
+    public TaskDetailsController(GraphicUserInterfaceController graphicUserInterfaceController, TaskService taskService, TaskListController taskListController) {
+        this.graphicUserInterfaceController = graphicUserInterfaceController;
+        this.taskService = taskService;
+        this.taskListController = taskListController;
+    }
 
     @FXML
     public void initialize() {
@@ -45,11 +57,29 @@ public class TaskDetailsController {
         closeIfNotFocused();
     }
 
-    public void show(TaskListItem taskListItem) {
-        this.taskName.setText(taskListItem.getItemName().getText());
-        this.startTime.setText(taskListItem.getStartTime());
-        this.endTime.setText(taskListItem.getEndTime());
+    public void show(Task task) {
+        setInitialData(task);
+    }
+
+    private void setInitialData(Task task){
+        this.taskName.setText(task.getName());
+        this.startTime.setText(task.getStartTimeText());
+        this.endTime.setText(task.getEndTimeText());
         this.stage.show();
+        taskName.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (Boolean.FALSE.equals(newVal)){
+                task.setName(this.taskName.getText());
+                taskService.addOrUpdate(task);
+                taskListController.refresh();
+            }
+        });
+        startTime.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (Boolean.FALSE.equals(newVal)){
+                taskService.addOrUpdate(task);
+                taskListController.refresh();
+            }
+        });
+
     }
 
     private void setStageParameters(Stage stage) {

@@ -7,8 +7,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import lombok.Getter;
+import net.cefeon.javafxcalendar.Calendar;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
@@ -24,6 +27,7 @@ import java.util.stream.Stream;
 @Component
 @FxmlView("../../../../view/Calendar.fxml")
 public class CalendarController {
+
     private LocalDateTime selectedDate;
 
     @FXML
@@ -41,8 +45,15 @@ public class CalendarController {
     @FXML
     private Button leftArrowButton;
 
-   @Autowired
-    private TaskListController taskListController;
+   private final TaskListController taskListController;
+
+   private final Calendar calendar;
+
+   public CalendarController(TaskListController taskListController, Calendar calendar){
+       this.taskListController = taskListController;
+       this.calendar = calendar;
+       this.selectedDate = calendar.getSelectedDate();
+   }
 
     public Map<Point, Node> getGridNodes(GridPane gridPane) {
         Map<Point, Node> nodes = new HashMap<>();
@@ -75,8 +86,8 @@ public class CalendarController {
     public void addSetSelectedDayOnClick(Text text) {
         text.setOnMouseClicked(event -> {
             styleSelectedField(text);
-            this.selectedDate = selectedDate.withDayOfMonth(Integer.parseInt(text.getText()));
-            taskListController.displayTaskList(this.selectedDate);
+            calendar.setSelectedDate(this.selectedDate.withDayOfMonth(Integer.parseInt(text.getText())));
+            taskListController.refresh();
         });
     }
 
@@ -170,25 +181,23 @@ public class CalendarController {
 
     public void actionAddMonthOnClick(Button button) {
         button.setOnAction(event -> {
-            this.selectedDate = this.selectedDate.plusMonths(1);
+            calendar.setSelectedDate(this.selectedDate.plusMonths(1));
             refresh();
         });
     }
 
     public void actionSubstractMonthOnClick(Button button) {
         button.setOnAction(event -> {
-            this.selectedDate = this.selectedDate.plusMonths(-1);
+            calendar.setSelectedDate(this.selectedDate.plusMonths(-1));
             refresh();
         });
     }
 
     @FXML
     public void initialize() {
-        this.selectedDate = LocalDateTime.now();
         actionAddMonthOnClick(this.rightArrowButton);
         actionSubstractMonthOnClick(this.leftArrowButton);
         setYearAndMonth(this.selectedDate);
-        taskListController.displayTaskList(this.selectedDate);
         refresh();
     }
 }

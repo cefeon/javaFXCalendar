@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import lombok.Getter;
+import net.cefeon.javafxcalendar.Calendar;
 import net.cefeon.javafxcalendar.TaskListDay;
 import net.cefeon.javafxcalendar.TaskListItem;
 import net.cefeon.javafxcalendar.entities.Task;
@@ -26,8 +27,7 @@ import java.util.stream.IntStream;
 @FxmlView("../../../../view/TaskList.fxml")
 public class TaskListController {
 
-    @Autowired
-    private FxWeaver fxWeaver;
+    private final FxWeaver fxWeaver;
 
     @Getter
     @FXML
@@ -40,8 +40,15 @@ public class TaskListController {
     @FXML
     private VBox taskBox;
 
-    @Autowired
-    private TaskService taskService;
+    private final TaskService taskService;
+
+    private final Calendar calendar;
+
+    public TaskListController(FxWeaver fxWeaver, TaskService taskService, Calendar calendar) {
+        this.fxWeaver = fxWeaver;
+        this.taskService = taskService;
+        this.calendar = calendar;
+    }
 
     public void displayTaskList(LocalDateTime date){
         ObservableList<Node> todayItems = FXCollections.observableArrayList (addDayLabel(date,"TODAY "), addDailyGrid(date));
@@ -67,7 +74,7 @@ public class TaskListController {
 
         IntStream.range(0, list.size()).forEach(i->{
             Task x = list.get(i);
-            addTaskGridElement(gridPane, x.getName(), x.getStartTimeText(), x.getEndTimeText(), x.getCategory(), i);
+            addTaskGridElement(gridPane, x, i);
             gridPane.getRowConstraints().add(new RowConstraints(25));
         });
         return gridPane;
@@ -79,17 +86,17 @@ public class TaskListController {
         return taskListDay.getHBox();
     }
 
-    private void addTaskGridElement(GridPane gridPane, String taskListItemName, String taskListStartTime, String taskListEndTime, String taskCategory, int row){
+    private void addTaskGridElement(GridPane gridPane, Task task, int row){
         TaskListItem taskListItem = new TaskListItem(new Text(), new Text(), new Rectangle(), "", "");
-        addShowDetailsWindow(taskListItem);
-        taskListItem.setTextAndStyle(taskListItemName, taskListStartTime, taskListEndTime, taskCategory);
+        addShowDetailsWindow(taskListItem, task);
+        taskListItem.setTextAndStyle(task.getName(), task.getStartTimeText(), task.getEndTimeText(), task.getCategory());
         gridPane.add(taskListItem.getIcon(), 0, row);
         gridPane.add(taskListItem.getItemName(), 1,row);
         gridPane.add(taskListItem.getHours(), 2,row);
     }
 
     private void addExampleTask(){
-        taskService.add(
+        taskService.addOrUpdate(
                 Task.builder()
                         .name("Zrobić śniadanie")
                         .startTime(LocalDateTime.now())
@@ -101,14 +108,18 @@ public class TaskListController {
         );
     }
 
-    private void addShowDetailsWindow(TaskListItem taskListItem){
+    private void addShowDetailsWindow(TaskListItem taskListItem, Task task){
         taskListItem.getItemName().setOnMouseClicked(event->{
-            fxWeaver.loadController(TaskDetailsController.class).show(taskListItem);
+            fxWeaver.loadController(TaskDetailsController.class).show(task);
         });
+    }
+
+    public void refresh(){
+        displayTaskList(calendar.getSelectedDate());
     }
 
     @FXML
     public void initialize() {
-        addExampleTask();
+        displayTaskList(LocalDateTime.now());
     }
 }
